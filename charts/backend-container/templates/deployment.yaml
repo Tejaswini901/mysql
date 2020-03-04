@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ template "backend-container.fullname" . }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app: {{ template "backend-container.fullname" . }}
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    release: "{{ .Release.Name }}"
+    heritage: "{{ .Release.Service }}"
+{{- with .Values.deploymentAnnotations }}
+  annotations:
+{{ toYaml . | indent 4 }}
+{{- end }}    
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ template "backend-container.fullname" . }}
+      release: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app: {{ template "backend-container.fullname" . }}
+        release: {{ .Release.Name }}
+    spec:
+    {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+      containers:
+        - name: {{ template "backend-container.fullname" . }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+          # Use secret in real usage
+          - name: MYSQL_DATABASE_URL
+            value: {{ .Values.env.URI }}
+          - name: KEYCLOAK_REALM
+            value: {{ .Values.env.KEYCLOAK_REALM }}
+          - name: KEYCLOAK_RESOURCE
+            value: {{ .Values.env.KEYCLOAK_RESOURCE }}
+          - name: MYSQL_DATABASE_USERNAME
+            value: {{ .Values.env.DB_USER_NAME }}
+          - name: KEYCLOAK_URL
+            value: {{ .Values.env.KEYCLOAK_URI }}        
+          - name: MYSQL_DATABASE_PASSWORD
+            value: {{ .Values.env.DB_PASSWORD }}
+          - name: REDIS_HOST
+            value: {{ .Values.env.REDIS_HOST }}
+          - name: REDIS_PORT
+            value: {{ .Values.env.REDIS_PORT }}
+          ports:
+            - name: backend
+              containerPort: {{ .Values.service.port }}
+              protocol: TCP  

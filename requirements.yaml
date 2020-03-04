@@ -1,0 +1,11 @@
+dependencies:
+  - name: redis
+    condition: redis.enabled
+  - name: keycloak
+    condition: keycloak.enabled
+  - name: frontend-container
+    condition: frontend.enabled
+  - name: backend-container
+    condition: backend.enabled
+
+ 

@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ template "frontend-container.fullname" . }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app: {{ template "frontend-container.fullname" . }}
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    release: "{{ .Release.Name }}"
+    heritage: "{{ .Release.Service }}"
+{{- with .Values.deploymentAnnotations }}
+  annotations:
+{{ toYaml . | indent 4 }}
+{{- end }}    
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ template "frontend-container.fullname" . }}
+      release: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app: {{ template "frontend-container.fullname" . }}
+        release: {{ .Release.Name }}
+    spec:
+    {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+      containers:
+        - name: {{ template "frontend-container.fullname" . }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+          # Use secret in real usage
+          - name: KEYCLOAK_REALM
+            value: {{ .Values.env.KEYCLOAK_REALM }}
+          - name: KEYCLOAK_URL
+            value: {{ .Values.env.KEYCLOAK_URL }}
+          - name: KEYCLOAK_RESOURCE
+            value: {{ .Values.env.KEYCLOAK_RESOURCE }}
+          - name: OBF_HOST_BACKEND
+            value: {{ .Values.env.OBF_HOST_BACKEND }}
+          - name: OBF_HOST_KIBANA
+            value: {{ .Values.env.OBF_HOST_KIBANA }}
+          ports:
+            - name: frontend
+              containerPort: {{ .Values.service.port }}
+              protocol: TCP  

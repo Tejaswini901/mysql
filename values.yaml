@@ -1,0 +1,176 @@
+replicaCount: 1
+image:
+  repository: mysql
+  tag: 8.0
+  pullPolicy: IfNotPresent
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+service:
+  type: NodePort
+  port: 3306
+ingress:
+  enabled: false
+  annotations: {}
+  hosts:
+    - host: chart-example.local
+      paths: []
+  tls: []
+resources: {}
+nodeSelector: {}
+tolerations: []
+affinity: {}
+analytics: true
+redis:
+    enabled: true
+keycloak:
+    enabled: true
+obf-ui:
+    enabled: true
+obf-backend:
+    enabled: true
+env:
+  - name: MYSQL_USER
+    valueFrom:
+      secretKeyRef:
+        key: database-user
+        name: mysql
+  - name: MYSQL_PASSWORD
+    valueFrom:
+      secretKeyRef:
+        key: database-password
+        name: mysql
+  - name: MYSQL_ROOT_PASSWORD
+    valueFrom:
+      secretKeyRef:
+        key: database-root-password
+        name: mysql
+  - name: MYSQL_DATABASE
+    value: keycloak
+  
+redis:
+  replicaCount: 1
+  image:
+    repository: redis
+    tag: "5.0.5"
+    pullPolicy: IfNotPresent
+  imagePullSecrets: []
+  nameOverride: ""
+  fullnameOverride: ""
+  service:
+    type: NodePort
+    port: 6379
+  ingress:
+    enabled: false
+    annotations: {}
+    hosts:
+    - host: chart-example.local
+      paths: []
+    tls: []
+  resources: {}
+  nodeSelector: {}
+  tolerations: []
+  affinity: {}
+  
+keycloak:
+  replicaCount: 1
+  image:
+    repository: tareshsoni/custom-keycloak
+    tag: v2.6
+    pullPolicy: IfNotPresent
+  imagePullSecrets: []
+  nameOverride: ""
+  fullnameOverride: ""
+  service:
+    type: NodePort
+    port: 8080
+  ingress:
+    enabled: false
+    annotations: {}
+    hosts:
+    - host: chart-example.local
+      paths: []
+    tls: []
+  resources: {}
+  nodeSelector: {}
+  tolerations: []
+  affinity: {}
+  env:
+    KEYCLOAK_LOGLEVEL: WARN
+    ROOT_LOGLEVEL: WARN
+    DB_VENDOR: MYSQL
+    DB_ADDR: mysql
+    DB_USER: keycloak
+    DB_PASSWORD: keycloak
+    JGROUPS_DISCOVERY_PROTOCOL: kubernetes.KUBE_PING
+    JGROUPS_DISCOVERY_PROPERTIES: 'port_range=0,dump_requests=true'
+    PROXY_ADDRESS_FORWARDING: 'true'
+    connectTimeout: '600000'
+    KEYCLOAK_USER: admin
+    KEYCLOAK_PASSWORD: admin
+    remoteTimeout: '600000'
+    MYSQL_PORT: '3306'
+
+frontend-container:
+  replicaCount: 1
+  image:
+    repository: tareshsoni/rusdn
+    tag: v4.0
+    pullPolicy: IfNotPresent
+  imagePullSecrets: []
+  nameOverride: ""
+  fullnameOverride: ""
+  service:
+    type: NodePort
+    port: 80
+  ingress:
+    enabled: false
+    annotations: {}
+    hosts:
+    - host: chart-example.local
+      paths: []
+    tls: []
+  resources: {}
+  nodeSelector: {}
+  tolerations: []
+  affinity: {}
+  env: 
+   KEYCLOAK_URL: 'http://openshiftokd.34.93.55.163.nip.io/auth'
+   KEYCLOAK_REALM: activiti
+   KEYCLOAK_CLIENTID: activiti
+   OBF_HOST_BACKEND: 'http://openshiftokd.34.93.55.163.nip.io/'
+   OBF_HOST_KIBANA: 'http://34.85.46.112:30601'
+   
+backend-container:
+  replicaCount: 1
+  image:
+    repository: 
+    tag: v3.0.4
+    pullPolicy: IfNotPresent
+  imagePullSecrets: []
+  nameOverride: ""
+  fullnameOverride: ""
+  service:
+    type: NodePort
+    port: 8082
+  ingress:
+    enabled: false
+    annotations: {}
+    hosts:
+    - host: chart-example.local
+      paths: []
+    tls: []
+  resources: {}
+  nodeSelector: {}
+  tolerations: []
+  affinity: {}
+  env:
+   AUTH_URI: 'http://openshiftokd.34.93.55.163.nip.io/auth'
+   REALM: activiti
+   RESOURCE: activiti
+   URI: jdbc:mysql://mysql:3306/obf?autoReconnect=true&useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true&useSSL=false
+   DB_USER_NAME: keycloak
+   DB_PASSWORD: keycloak
+   REDIS_HOST: redis
+   REDIS_PORT: '6379'
+  

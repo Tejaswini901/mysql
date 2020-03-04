@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ template "backend-container.fullname" . }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app: {{ template "backend-container.fullname" . }}
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    release: "{{ .Release.Name }}"
+    heritage: "{{ .Release.Service }}"
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: {{ .Values.service.port }}
+      targetPort: backend
+  selector:
+    app: {{ template "backend-container.fullname" . }}
