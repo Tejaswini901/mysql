@@ -1,9 +1,16 @@
 apiVersion: route.openshift.io/v1
 kind: Route
 metadata:
-  name: backend
+  labels:
+    app: mysql-backend-container
+  name: mysql-backend-container
 spec:
-  host: http://backend.34.93.217.255.nip.io
+  host: 'http://backend.34.93.217.255.nip.io'
+  port:
+    targetPort: 8082
+    port: 8082
   to:
     kind: Service
     name: mysql-backend-container
+    weight: 100
+  wildcardPolicy: None

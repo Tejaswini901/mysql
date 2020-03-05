@@ -122,7 +122,7 @@ frontend-container:
   tolerations: []
   affinity: {}
   env: 
-   KEYCLOAK_URL: 'http://abc.34.93.217.255.nip.io/auth'
+   KEYCLOAK_URL: 'http://keycloak.34.93.217.255.nip.io/auth'
    KEYCLOAK_REALM: activiti
    KEYCLOAK_CLIENTID: activiti
    OBF_HOST_BACKEND: 'http://backend.34.93.217.255.nip.io'
@@ -152,7 +152,7 @@ backend-container:
   tolerations: []
   affinity: {}
   env:
-   AUTH_URI: 'http://abc.34.93.217.255.nip.io/auth'
+   AUTH_URI: 'http://keycloak.34.93.217.255.nip.io/auth'
    REALM: activiti
    RESOURCE: activiti
    URI: jdbc:mysql://mysql:3306/obf?autoReconnect=true&useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true&useSSL=false

@@ -1,9 +1,16 @@
 apiVersion: route.openshift.io/v1
 kind: Route
 metadata:
-  name: keycloak
+  labels:
+    app: mysql-keycloak
+  name: mysql-keycloak
 spec:
-  host: http://abc.34.93.217.255.nip.io/auth 
+  host: 'http://keycloak.34.93.217.255.nip.io/auth'
+  port:
+    targetPort: 8080
+    port: 8080
   to:
     kind: Service
     name: mysql-keycloak
+    weight: 100
+  wildcardPolicy: None
