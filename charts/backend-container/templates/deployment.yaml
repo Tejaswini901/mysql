@@ -34,22 +34,22 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
           # Use secret in real usage
-          - name: MYSQL_DATABASE_URL
+          - name: AUTH_URI
+            value: {{ .Values.env.AUTH_URI }}
+          - name: REALM
+            value: {{ .Values.env.REALM }}
+          - name: RESOURCE
+            value: {{ .Values.env.RESOURCE }}
+          - name: URI
             value: {{ .Values.env.URI }}
-          - name: KEYCLOAK_REALM
-            value: {{ .Values.env.KEYCLOAK_REALM }}
-          - name: KEYCLOAK_RESOURCE
-            value: {{ .Values.env.KEYCLOAK_RESOURCE }}
-          - name: MYSQL_DATABASE_USERNAME
+          - name: DB_USER_NAME
             value: {{ .Values.env.DB_USER_NAME }}
-          - name: KEYCLOAK_URL
-            value: {{ .Values.env.KEYCLOAK_URI }}        
-          - name: MYSQL_DATABASE_PASSWORD
+          - name: DB_PASSWORD
             value: {{ .Values.env.DB_PASSWORD }}
           - name: REDIS_HOST
             value: {{ .Values.env.REDIS_HOST }}
           - name: REDIS_PORT
-            value: {{ .Values.env.REDIS_PORT }}
+            value: "{{ .Values.env.REDIS_PORT }}"
           ports:
             - name: backend
               containerPort: {{ .Values.service.port }}

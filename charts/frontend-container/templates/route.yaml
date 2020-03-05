@@ -1,0 +1,9 @@
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: frontend
+spec:
+  host: http://frontend.34.93.217.255.nip.io/app
+  to:
+    kind: Service
+    name: mysql-frontend-container

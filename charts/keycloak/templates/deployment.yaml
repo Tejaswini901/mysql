@@ -33,34 +33,34 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
+          - name: KEYCLOAK_LOGLEVEL
+            value: {{ .Values.env.KEYCLOAK_LOGLEVEL }}
+          - name: ROOT_LOGLEVEL
+            value: {{ .Values.env.ROOT_LOGLEVEL }}
+          - name: DB_VENDOR
+            value: {{ .Values.env.DB_VENDOR }}
+          - name: DB_ADDR
+            value: {{ .Values.env.DB_ADDR }}
+          - name: DB_USER
+            value: {{ .Values.env.DB_USER }}
+          - name: DB_PASSWORD
+            value: {{ .Values.env.DB_PASSWORD }}
+          - name: JGROUPS_DISCOVERY_PROTOCOL
+            value: {{ .Values.env.JGROUPS_DISCOVERY_PROTOCOL }}
+          - name: JGROUPS_DISCOVERY_PROPERTIES
+            value: {{ .Values.env.JGROUPS_DISCOVERY_PROPERTIES }}
+          - name: PROXY_ADDRESS_FORWARDING
+            value: "{{ .Values.env.PROXY_ADDRESS_FORWARDING }}"
+          - name: connectTimeout
+            value: "{{ .Values.env.connectTimeout }}"
           - name: KEYCLOAK_USER
             value: {{ .Values.env.KEYCLOAK_USER }}
           - name: KEYCLOAK_PASSWORD
             value: {{ .Values.env.KEYCLOAK_PASSWORD }}
-          - name: DB_VENDOR
-            value: {{ .Values.env.DB_VENDOR }}
-          - name: DB_ADDR
-            value: {{ .Release.Name }}-{{ .Values.env.DB_ADDR }}
-          - name: DB_DATABASE
-            value: {{ .Values.env.DB_DATABASE }}
-          - name: DB_USER
-            value: {{ .Values.env.DB_USER }}   
-          - name: DB_PASSWORD
-            value: {{ .Values.env.DB_PASSWORD }}
-          - name: connectTimeout
-            value: "{{ .Values.env.connectTimeout }}"
-          - name: ROOT_LOGLEVEL
-            value: {{ .Values.env.ROOT_LOGLEVEL }}
-          - name: PROXY_ADDRESS_FORWARDING
-            value: "{{ .Values.env.PROXY_ADDRESS_FORWARDING }}"
-          - name: KEYCLOAK_LOGLEVEL
-            value: {{ .Values.env.KEYCLOAK_LOGLEVEL }}
-          - name: JGROUPS_DISCOVERY_PROPERTIES
-            value: {{ .Values.env.JGROUPS_DISCOVERY_PROPERTIES }}
-          - name: JGROUPS_DISCOVERY_PROTOCOL
-            value: {{ .Values.env.JGROUPS_DISCOVERY_PROTOCOL }}
           - name: remoteTimeout
             value: "{{ .Values.env.remoteTimeout }}"
+          - name: MYSQL_PORT
+            value: "{{ .Values.env.MYSQL_PORT }}"
           ports:
             - name: keycloak
               containerPort: {{ .Values.service.port }}

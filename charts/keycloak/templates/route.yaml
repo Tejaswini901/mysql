@@ -1,0 +1,9 @@
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: keycloak
+spec:
+  host: http://abc.34.93.217.255.nip.io/auth 
+  to:
+    kind: Service
+    name: mysql-keycloak

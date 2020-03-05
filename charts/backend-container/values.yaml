@@ -48,12 +48,13 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
+
 env:
- KEYCLOAK_URI: 'http://nodejs-ex-k.35.244.35.204.nip.io/auth'
- KEYCLOAK_REALM: activiti
- KEYCLOAK_RESOURCE: activiti
- URI: jdbc:mysql://mysql:3306/obf?autoReconnect=true&useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true&useSSL=false
- DB_USER_NAME: keycloak
- DB_PASSWORD: keycloak
- REDIS_HOST: redis
- REDIS_PORT: 6379
+  KEYCLOAK_URI: 'http://nodejs-ex-k.35.244.35.204.nip.io/auth'
+  KEYCLOAK_REALM: activiti
+  KEYCLOAK_RESOURCE: activiti
+  URI: jdbc:mysql://mysql:3306/obf?autoReconnect=true&useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true&useSSL=false
+  DB_USER_NAME: keycloak
+  DB_PASSWORD: keycloak
+  REDIS_HOST: redis
+  REDIS_PORT: "6379"

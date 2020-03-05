@@ -34,12 +34,12 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
           # Use secret in real usage
-          - name: KEYCLOAK_REALM
-            value: {{ .Values.env.KEYCLOAK_REALM }}
           - name: KEYCLOAK_URL
             value: {{ .Values.env.KEYCLOAK_URL }}
-          - name: KEYCLOAK_RESOURCE
-            value: {{ .Values.env.KEYCLOAK_RESOURCE }}
+          - name: KEYCLOAK_REALM
+            value: {{ .Values.env.KEYCLOAK_REALM }}
+          - name: KEYCLOAK_CLIENTID
+            value: {{ .Values.env.KEYCLOAK_CLIENTID }}
           - name: OBF_HOST_BACKEND
             value: {{ .Values.env.OBF_HOST_BACKEND }}
           - name: OBF_HOST_KIBANA

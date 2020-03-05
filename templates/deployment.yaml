@@ -34,23 +34,13 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
           - name: MYSQL_USER
-            valueFrom:
-              secretKeyRef:
-                key: database-user
-                name: mysql
+            value: {{ .Values.env.MYSQL_USER }}
           - name: MYSQL_PASSWORD
-            valueFrom:
-              secretKeyRef:
-                key: database-password
-                name: mysql
+            value: {{ .Values.env.MYSQL_PASSWORD }}
           - name: MYSQL_ROOT_PASSWORD
-            valueFrom:
-              secretKeyRef:
-                key: database-root-password
-                name: mysql
+            value: {{ .Values.env.MYSQL_ROOT_PASSWORD }}
           - name: MYSQL_DATABASE
-            value: keycloak
-          
+            value: {{ .Values.env.MYSQL_DATABASE }}
           ports:
             - name: mysql
               containerPort: 3306
@@ -60,4 +50,4 @@ spec:
       volumes:
       - name: mysql-persistent-storage
         persistentVolumeClaim:
-          claimName: common-pv-2-claim 
+          claimName: common-pv-1-claim 

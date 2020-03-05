@@ -1,0 +1,9 @@
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: backend
+spec:
+  host: http://backend.34.93.217.255.nip.io
+  to:
+    kind: Service
+    name: mysql-backend-container

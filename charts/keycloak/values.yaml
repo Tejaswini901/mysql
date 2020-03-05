@@ -5,8 +5,8 @@
 replicaCount: 1
 
 image:
-  repository: tareshsoni/custom-keycloak
-  tag: v4.3
+  repository: jboss/keycloak
+  tag: latest
   pullPolicy: IfNotPresent
 
 imagePullSecrets: []
